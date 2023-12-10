@@ -22,8 +22,8 @@ public class MembreServiceImpl implements MembreService {
     @Override
     public Membre createMembre(Membre membre) {
         String numeroAdhesion = generateNumeroAdhesion(membre);
-        if(membreRepository.existsByNumeroAdhesion(membre.getNumeroAdhesion())){
-            throw new OperationsException("Ce code : " + membre.getNumeroAdhesion() + ", appartient déja à un membre");
+        if(membreRepository.existsByNumeroAdhesion(numeroAdhesion)){
+            throw new OperationsException("Ce membre existe deja");
         }
         membre.setNumeroAdhesion(numeroAdhesion);
         return membreRepository.save(membre);

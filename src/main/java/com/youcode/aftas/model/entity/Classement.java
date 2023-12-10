@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Rank {
+public class Classement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idRank;
+    private Long idClassement;
     @ManyToOne
     private Membre membre;
     @ManyToOne

@@ -35,7 +35,7 @@ public class Competition {
     @Enumerated(EnumType.STRING)
     private StatutCompetition statutCompetition;
     @OneToMany(mappedBy = "competition")
-    private List<Rank> ranks;
+    private List<Classement> classements;
     @OneToMany(mappedBy = "competition")
     private List<Chasse> chasses;
     @JsonIgnore

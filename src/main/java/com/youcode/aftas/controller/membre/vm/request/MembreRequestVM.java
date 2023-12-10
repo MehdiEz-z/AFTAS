@@ -20,7 +20,6 @@ public record MembreRequestVM(
     String prenom,
     @NotNull(message = "La Date est obligatoire")
     @Past(message = "La Date de Naissance doit être dans le passé")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     LocalDate dateNaissance,
     @NotBlank(message = "La Nationalité est Obligatoire")
     String nationalite,
