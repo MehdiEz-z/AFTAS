@@ -44,6 +44,12 @@ public class MembreServiceImpl implements MembreService {
     }
 
     @Override
+    public Membre getMembreById(Long id) {
+        return membreRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ce Membre n'existe pas"));
+    }
+
+    @Override
     public List<Membre> getAllMembres() {
         return membreRepository.findAll();
     }

@@ -23,22 +23,29 @@ public class Membre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMembre;
-    @Column(unique = true)
+    @Column(name = "numero_adhesion", unique = true)
     private String numeroAdhesion;
+    @Column(name = "nom_membre")
     private String nomMembre;
+    @Column(name = "prenom_membre")
     private String prenomMembre;
+    @Column(name = "date_naissance_membre")
     private LocalDate dateNaissanceMembre;
+    @Column(name = "nationalite_membre")
     private String nationaliteMembre;
     @Enumerated(EnumType.STRING)
+    @Column(name = "identite_type")
     private IdentityDocumentType identiteType;
     @OneToMany(mappedBy = "membre")
     private List<Rank> ranks;
     @OneToMany(mappedBy = "membre")
     private List<Chasse> chasses;
     @JsonIgnore
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
     @JsonIgnore
+    @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }

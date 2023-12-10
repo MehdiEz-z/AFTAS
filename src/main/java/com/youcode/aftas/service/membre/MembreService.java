@@ -9,6 +9,7 @@ import java.util.List;
 public interface MembreService {
     Membre createMembre(Membre membre);
     Membre getMembreByNombreAdhesion(String nombreAdhesion);
+    Membre getMembreById(Long id);
     List<Membre> getAllMembres();
     List<Membre> searchMembres(String searchTerm);
     Membre updateMembre(Membre membre, String nombreAdhesion);
