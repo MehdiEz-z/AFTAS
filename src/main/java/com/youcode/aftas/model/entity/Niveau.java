@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @EntityListeners({AuditingEntityListener.class})
@@ -24,6 +25,8 @@ public class Niveau {
     private Integer codeNiveau;
     private String descriptionNiveau;
     private int points;
+    @OneToMany(mappedBy = "niveau")
+    private List<Poisson> poissons;
     @JsonIgnore
     @CreatedDate
     private LocalDateTime createdAt;

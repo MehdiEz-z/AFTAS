@@ -65,7 +65,7 @@ public class NiveauServiceImpl implements NiveauService {
             throw new OperationsException("Le niveau doit être supérieur à celui que vous avez spécifié");
         }
         if (niveauPrecedent != null && niveau.getPoints() <= niveauPrecedent.getPoints()) {
-            throw new OperationsException("Les points doivent être supérieurs à ceux que vous avez spécifiés");
+            throw new OperationsException("Les points doivent être supérieurs à : " + niveauPrecedent.getPoints());
         }
     }
 

@@ -17,11 +17,11 @@ public record MembreResponseVM(
     public static MembreResponseVM toVM(Membre membre){
         return new MembreResponseVM(
             membre.getNumeroAdhesion(),
-                membre.getNomMembre(),
-                membre.getPrenomMembre(),
-                membre.getDateNaissanceMembre(),
-                membre.getNationaliteMembre(),
-                membre.getIdentiteType().name()
+            membre.getNomMembre(),
+            membre.getPrenomMembre(),
+            membre.getDateNaissanceMembre(),
+            membre.getNationaliteMembre(),
+            membre.getIdentiteType().name()
         );
     }
 }
