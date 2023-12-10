@@ -24,7 +24,7 @@ public class Membre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMembre;
     @Column(unique = true)
-    private String nombreAdhesion;
+    private String numeroAdhesion;
     private String nomMembre;
     private String prenomMembre;
     private LocalDate dateAdhesion;
