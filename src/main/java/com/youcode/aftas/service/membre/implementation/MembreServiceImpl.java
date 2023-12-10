@@ -31,8 +31,8 @@ public class MembreServiceImpl implements MembreService {
 
     private String generateNumeroAdhesion(Membre membre) {
         String deuxPremieresLettresNom = membre.getNomMembre().substring(0, Math.min(membre.getNomMembre().length(), 2)).toUpperCase();
-        String deuxPremieresLettresNationalite = membre.getNationalite().substring(0, Math.min(membre.getNationalite().length(), 2)).toUpperCase();
-        String anneeNaissance = String.valueOf(membre.getDateAdhesion().getYear());
+        String deuxPremieresLettresNationalite = membre.getNationaliteMembre().substring(0, Math.min(membre.getNationaliteMembre().length(), 2)).toUpperCase();
+        String anneeNaissance = String.valueOf(membre.getDateNaissanceMembre().getYear());
 
         return deuxPremieresLettresNom + "-" + deuxPremieresLettresNationalite + "-" + anneeNaissance;
     }
@@ -64,8 +64,8 @@ public class MembreServiceImpl implements MembreService {
             }
             membreExiste.setNomMembre(membre.getNomMembre());
             membreExiste.setPrenomMembre(membre.getPrenomMembre());
-            membreExiste.setDateAdhesion(membre.getDateAdhesion());
-            membreExiste.setNationalite(membre.getNationalite());
+            membreExiste.setDateNaissanceMembre(membre.getDateNaissanceMembre());
+            membreExiste.setNationaliteMembre(membre.getNationaliteMembre());
             membreExiste.setIdentiteType(membre.getIdentiteType());
             membreExiste.setNumeroAdhesion(membre.getNumeroAdhesion());
             return membreRepository.save(membreExiste);

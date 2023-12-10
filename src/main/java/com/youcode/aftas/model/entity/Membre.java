@@ -27,8 +27,8 @@ public class Membre {
     private String numeroAdhesion;
     private String nomMembre;
     private String prenomMembre;
-    private LocalDate dateAdhesion;
-    private String nationalite;
+    private LocalDate dateNaissanceMembre;
+    private String nationaliteMembre;
     @Enumerated(EnumType.STRING)
     private IdentityDocumentType identiteType;
     @OneToMany(mappedBy = "membre")
