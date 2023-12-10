@@ -21,10 +21,20 @@ public class MembreServiceImpl implements MembreService {
 
     @Override
     public Membre createMembre(Membre membre) {
+        String numeroAdhesion = generateNumeroAdhesion(membre);
         if(membreRepository.existsByNumeroAdhesion(membre.getNumeroAdhesion())){
             throw new OperationsException("Ce code : " + membre.getNumeroAdhesion() + ", appartient déja à un membre");
         }
+        membre.setNumeroAdhesion(numeroAdhesion);
         return membreRepository.save(membre);
+    }
+
+    private String generateNumeroAdhesion(Membre membre) {
+        String deuxPremieresLettresNom = membre.getNomMembre().substring(0, Math.min(membre.getNomMembre().length(), 2)).toUpperCase();
+        String deuxPremieresLettresNationalite = membre.getNationalite().substring(0, Math.min(membre.getNationalite().length(), 2)).toUpperCase();
+        String anneeNaissance = String.valueOf(membre.getDateAdhesion().getYear());
+
+        return deuxPremieresLettresNom + "-" + deuxPremieresLettresNationalite + "-" + anneeNaissance;
     }
 
     @Override
