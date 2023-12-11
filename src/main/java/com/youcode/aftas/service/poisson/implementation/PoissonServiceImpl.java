@@ -24,8 +24,14 @@ public class PoissonServiceImpl implements PoissonService {
 
     @Override
     public Poisson createPoisson(Poisson poisson) {
-        validatePoisson(poisson);
-        poisson.setNiveau(poisson.getNiveau());
+        Niveau niveauExiste = niveauService.getNiveauByCode(poisson.getNiveau().getCodeNiveau());
+        if(niveauExiste == null){
+            throw new ResourceNotFoundException("Ce Niveau n'existe pas");
+        }
+        if(poissonRepository.existsByNomPoisson(poisson.getNomPoisson())){
+            throw new OperationsException("Ce Poisson existe déjà");
+        }
+        poisson.setNiveau(niveauExiste);
         return poissonRepository.save(poisson);
     }
 
@@ -44,7 +50,13 @@ public class PoissonServiceImpl implements PoissonService {
     public Poisson updatePoisson(Poisson poisson, String nomPoisson) {
         Optional<Poisson> existingPoissonOptional =poissonRepository.findByNomPoisson(nomPoisson);
         if(existingPoissonOptional.isPresent()){
-            validatePoisson(poisson);
+            Niveau niveauExiste = niveauService.getNiveauByCode(poisson.getNiveau().getCodeNiveau());
+            if(niveauExiste == null){
+                throw new ResourceNotFoundException("Ce Niveau n'existe pas");
+            }
+            if(poissonRepository.existsByNomPoisson(poisson.getNomPoisson())){
+                throw new OperationsException("Ce Poisson existe déjà");
+            }
             poisson.setNiveau(poisson.getNiveau());
             poisson.setNomPoisson(poisson.getNomPoisson());
             poisson.setPoidsMoyen(poisson.getPoidsMoyen());
@@ -52,16 +64,6 @@ public class PoissonServiceImpl implements PoissonService {
             throw new ResourceNotFoundException("Le Poisson : " + nomPoisson + ", n'existe pas");
         }
         return null;
-    }
-
-    private void validatePoisson(Poisson poisson) {
-        Niveau niveauExiste = niveauService.getNiveauByCode(poisson.getNiveau().getCodeNiveau());
-        if(niveauExiste == null){
-            throw new ResourceNotFoundException("Ce Niveau n'existe pas");
-        }
-        if(poissonRepository.existsByNomPoisson(poisson.getNomPoisson())){
-            throw new OperationsException("Ce Poisson existe déjà");
-        }
     }
 
     @Override

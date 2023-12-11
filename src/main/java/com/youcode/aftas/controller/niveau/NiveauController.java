@@ -35,7 +35,7 @@ public class NiveauController {
         }else {
             return ResponseMessage.ok(niveaux.stream()
                     .map(NiveauResponseVM::toVM)
-                    .collect(Collectors.toList()), "Niveaux Réscupérés avec succé");
+                    .collect(Collectors.toList()), "Niveaux Récupérés avec succé");
         }
     }
 

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 
 public record PoissonRequestVM(
         @NotBlank(message = "Le Nom est Obligatoire")
+        @Pattern(regexp = "^[a-zA-Z]*$", message = "Le nom du poisson doit contenir uniquement des caractères alphabétiques")
         @Size(min = 4, max = 15, message = "Le nom doit avoir entre 4 et 15 caractères")
         String nom,
         @NotNull(message = "Le Code est Obligatoire")
@@ -21,6 +22,7 @@ public record PoissonRequestVM(
                 .niveau(Niveau.builder()
                         .codeNiveau(niveau)
                         .build())
+                .poidsMoyen(poidsMoyen)
                 .build();
     }
 }
