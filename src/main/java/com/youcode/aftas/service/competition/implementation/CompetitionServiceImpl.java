@@ -7,7 +7,7 @@ import com.youcode.aftas.repository.CompetitionRepository;
 import com.youcode.aftas.service.competition.CompetitionService;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -28,9 +28,6 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
         if (competitionRepository.existsByDateCompetition(dateDebutCompetition)) {
             throw new OperationsException("Une compétition existe déjà pour la date : " + dateDebutCompetition);
-        }
-        if (competition.getHeureFin().isBefore(competition.getHeureDebut())) {
-            throw new OperationsException("L'heure de fin doit être supérieure à l'heure de début");
         }
         String codeCompetition = generateCodeCompetition(competition);
         competition.setCodeCompetition(codeCompetition);
