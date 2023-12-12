@@ -2,6 +2,7 @@ package com.youcode.aftas.controller.competition;
 
 import com.youcode.aftas.controller.competition.vm.request.CompetitionRequestVM;
 import com.youcode.aftas.controller.competition.vm.request.InscriptionRequestVM;
+import com.youcode.aftas.controller.competition.vm.response.CompetitionWithClassementResponseVM;
 import com.youcode.aftas.controller.competition.vm.response.CompetitionResponseVM;
 import com.youcode.aftas.controller.competition.vm.response.InscriptionResponseVM;
 import com.youcode.aftas.handler.response.ResponseMessage;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/competition")
+    @RequestMapping("/api/competition")
 public class CompetitionController {
     private final CompetitionService competitionService;
 
@@ -58,7 +59,8 @@ public class CompetitionController {
 
     @PutMapping("{codeCompetition}/classement")
     public ResponseEntity<?> updateClassement(@PathVariable String codeCompetition){
-        competitionService.updateClassementMembre(codeCompetition);
-        return ResponseMessage.ok(null,"Classement modifié avec Succé");
+        Competition competition = competitionService.updateClassementMembre(codeCompetition);
+        return ResponseMessage.ok(CompetitionWithClassementResponseVM.toVM(competition),
+                "Classement modifié avec Succé");
     }
 }

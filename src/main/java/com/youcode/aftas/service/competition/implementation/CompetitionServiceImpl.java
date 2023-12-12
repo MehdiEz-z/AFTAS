@@ -5,7 +5,6 @@ import com.youcode.aftas.handler.exception.ResourceNotFoundException;
 import com.youcode.aftas.model.entity.Classement;
 import com.youcode.aftas.model.entity.Competition;
 import com.youcode.aftas.model.entity.Membre;
-import com.youcode.aftas.model.entity.Peche;
 import com.youcode.aftas.repository.ClassementRepository;
 import com.youcode.aftas.repository.CompetitionRepository;
 import com.youcode.aftas.service.competition.CompetitionService;
@@ -105,11 +104,11 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public void updateClassementMembre(String competitionCode) {
-        getCompetitionByCode(competitionCode);
+    public Competition updateClassementMembre(String competitionCode) {
+        Competition competition = getCompetitionByCode(competitionCode);
         List<Classement> classements = classementRepository.findByCompetition_CodeCompetition(competitionCode);
         if (classements.isEmpty()) {
-            throw new ResourceNotFoundException("Aucun Classement trouvé pour cette competition :  " + competitionCode);
+            throw new ResourceNotFoundException("Aucun Classement trouvé pour cette compétition :  " + competitionCode);
         }
         classements.sort(Comparator.comparingInt(Classement::getScore).reversed());
         int currentRank = 1;
@@ -122,5 +121,7 @@ public class CompetitionServiceImpl implements CompetitionService {
             previousScore = classement.getScore();
             currentRank++;
         }
+        competition.setClassements(classements);
+        return competition;
     }
 }
