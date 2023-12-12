@@ -33,9 +33,16 @@ public class MembreServiceImpl implements MembreService {
         String deuxPremieresLettresNom = membre.getNomMembre().substring(0, Math.min(membre.getNomMembre().length(), 2)).toUpperCase();
         String deuxPremieresLettresNationalite = membre.getNationaliteMembre().substring(0, Math.min(membre.getNationaliteMembre().length(), 2)).toUpperCase();
         String anneeNaissance = String.valueOf(membre.getDateNaissanceMembre().getYear());
-
-        return deuxPremieresLettresNom + "-" + deuxPremieresLettresNationalite + "-" + anneeNaissance;
+        String numeroAdhesionBase = deuxPremieresLettresNom + "-" + deuxPremieresLettresNationalite + "-" + anneeNaissance;
+        int suffixe = 1;
+        String numeroAdhesion = numeroAdhesionBase + "-" + suffixe;
+        while (membreRepository.existsByNumeroAdhesion(numeroAdhesion)) {
+            suffixe++;
+            numeroAdhesion = numeroAdhesionBase + "-" + suffixe;
+        }
+        return numeroAdhesion;
     }
+
 
     @Override
     public Membre getMembreByNombreAdhesion(String nombreAdhesion) {

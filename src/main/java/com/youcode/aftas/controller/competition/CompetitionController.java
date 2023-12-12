@@ -1,8 +1,11 @@
 package com.youcode.aftas.controller.competition;
 
 import com.youcode.aftas.controller.competition.vm.request.CompetitionRequestVM;
+import com.youcode.aftas.controller.competition.vm.request.InscriptionRequestVM;
 import com.youcode.aftas.controller.competition.vm.response.CompetitionResponseVM;
+import com.youcode.aftas.controller.competition.vm.response.InscriptionResponseVM;
 import com.youcode.aftas.handler.response.ResponseMessage;
+import com.youcode.aftas.model.entity.Classement;
 import com.youcode.aftas.model.entity.Competition;
 import com.youcode.aftas.service.competition.CompetitionService;
 import jakarta.validation.Valid;
@@ -40,6 +43,16 @@ public class CompetitionController {
         return ResponseMessage.created(
                 CompetitionResponseVM.toVM(competitionCreated),
                 "Competition crée avec succé"
+        );
+    }
+
+    @PostMapping("/inscription")
+    public ResponseEntity<?> inscriptionMembre(@Valid @RequestBody InscriptionRequestVM inscriptionRequestVM){
+        Classement classement = inscriptionRequestVM.toEntite();
+        Classement classementCreated = competitionService.inscrireMembre(classement);
+        return ResponseMessage.created(
+                InscriptionResponseVM.toVM(classementCreated),
+                        "Membre inscrit avec succé dans la competition"
         );
     }
 }
