@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Chasse {
+public class Peche {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idChasse;
+    private Long idPeche;
     @ManyToOne
     private Poisson poisson;
     private Integer nombrePoisson;

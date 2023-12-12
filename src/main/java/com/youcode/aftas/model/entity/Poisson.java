@@ -25,7 +25,7 @@ public class Poisson {
     private String nomPoisson;
     private Double poidsMoyen;
     @OneToMany(mappedBy = "poisson")
-    private List<Chasse> chasses;
+    private List<Peche> chasses;
     @ManyToOne
     private Niveau niveau;
     @JsonIgnore

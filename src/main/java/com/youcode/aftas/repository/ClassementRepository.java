@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClassementRepository extends JpaRepository<Classement,Long> {
     boolean existsByMembreAndCompetition(Membre membre, Competition competition);
+    Classement findByMembreAndCompetition(Membre membre, Competition competition);
 }

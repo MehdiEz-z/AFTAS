@@ -37,7 +37,7 @@ public class Competition {
     @OneToMany(mappedBy = "competition")
     private List<Classement> classements;
     @OneToMany(mappedBy = "competition")
-    private List<Chasse> chasses;
+    private List<Peche> chasses;
     @JsonIgnore
     @CreatedDate
     private LocalDateTime createdAt;

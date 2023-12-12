@@ -96,6 +96,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         if (nombreParticipantsInscrits >= competition.getNombreParticipants()) {
             throw new OperationsException("Le nombre maximal de participants pour cette compétition a été atteint.");
         }
+        classement.setClassementMembre(0);
         classement.setCompetition(competition);
         classement.setMembre(adherent);
         classement.setScore(0);

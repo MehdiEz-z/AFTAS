@@ -20,6 +20,7 @@ public class Classement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClassement;
+    private Integer classementMembre;
     @ManyToOne
     private Membre membre;
     @ManyToOne

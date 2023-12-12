@@ -34,7 +34,7 @@ public class Membre {
     @OneToMany(mappedBy = "membre")
     private List<Classement> classements;
     @OneToMany(mappedBy = "membre")
-    private List<Chasse> chasses;
+    private List<Peche> chasses;
     @JsonIgnore
     @CreatedDate
     private LocalDateTime createdAt;
