@@ -5,27 +5,28 @@ import com.youcode.aftas.handler.exception.ResourceNotFoundException;
 import com.youcode.aftas.model.entity.Classement;
 import com.youcode.aftas.model.entity.Competition;
 import com.youcode.aftas.model.entity.Membre;
+import com.youcode.aftas.model.entity.Peche;
 import com.youcode.aftas.repository.ClassementRepository;
 import com.youcode.aftas.repository.CompetitionRepository;
-import com.youcode.aftas.service.classement.ClassementService;
 import com.youcode.aftas.service.competition.CompetitionService;
 import com.youcode.aftas.service.membre.MembreService;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class CompetitionServiceImpl implements CompetitionService {
     private final CompetitionRepository competitionRepository;
     private final MembreService membreService;
-    private final ClassementService classementService;
+    private final ClassementRepository classementRepository;
 
-    public CompetitionServiceImpl(CompetitionRepository competitionRepository, MembreService membreService, ClassementRepository classementRepository, ClassementService classementService) {
+    public CompetitionServiceImpl(CompetitionRepository competitionRepository, MembreService membreService, ClassementRepository classementRepository, ClassementRepository classementRepository1) {
         this.competitionRepository = competitionRepository;
         this.membreService = membreService;
-        this.classementService = classementService;
+        this.classementRepository = classementRepository1;
     }
 
     @Override
@@ -89,7 +90,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         if (now.isAfter(dateLimiteInscription)) {
             throw new OperationsException("La période d'inscription pour cette compétition est terminée.");
         }
-        if (classementService.isMembreInscrit(adherent, competition)) {
+        if (classementRepository.existsByMembreAndCompetition(adherent, competition)) {
             throw new OperationsException("Le membre est déjà inscrit à cette compétition.");
         }
         int nombreParticipantsInscrits = competition.getClassements().size();
@@ -100,7 +101,26 @@ public class CompetitionServiceImpl implements CompetitionService {
         classement.setCompetition(competition);
         classement.setMembre(adherent);
         classement.setScore(0);
-        return classementService.ajoutClassement(classement);
+        return classementRepository.save(classement);
     }
 
+    @Override
+    public void updateClassementMembre(String competitionCode) {
+        getCompetitionByCode(competitionCode);
+        List<Classement> classements = classementRepository.findByCompetition_CodeCompetition(competitionCode);
+        if (classements.isEmpty()) {
+            throw new ResourceNotFoundException("Aucun Classement trouvé pour cette competition :  " + competitionCode);
+        }
+        classements.sort(Comparator.comparingInt(Classement::getScore).reversed());
+        int currentRank = 1;
+        int previousScore = Integer.MAX_VALUE;
+        for (Classement classement : classements) {
+            if (classement.getScore() != previousScore) {
+                classement.setClassementMembre(currentRank);
+            }
+            classementRepository.save(classement);
+            previousScore = classement.getScore();
+            currentRank++;
+        }
+    }
 }

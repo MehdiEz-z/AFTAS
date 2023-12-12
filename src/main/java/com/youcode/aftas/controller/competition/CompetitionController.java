@@ -55,4 +55,10 @@ public class CompetitionController {
                         "Membre inscrit avec succé dans la competition"
         );
     }
+
+    @PutMapping("{codeCompetition}/classement")
+    public ResponseEntity<?> updateClassement(@PathVariable String codeCompetition){
+        competitionService.updateClassementMembre(codeCompetition);
+        return ResponseMessage.ok(null,"Classement modifié avec Succé");
+    }
 }

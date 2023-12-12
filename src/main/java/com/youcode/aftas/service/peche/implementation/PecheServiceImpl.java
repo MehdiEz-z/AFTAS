@@ -12,6 +12,7 @@ import com.youcode.aftas.service.peche.PecheService;
 import com.youcode.aftas.service.poisson.PoissonService;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -47,16 +48,34 @@ public class PecheServiceImpl implements PecheService {
             throw new OperationsException("Le poids du poisson pêché est inférieur au poids moyen du poisson. La pêche est rejetée.");
         }
         Peche pecheExiste = pecheRepository.findByPoissonAndMembreAndCompetition(poisson, membre, competition);
+        Peche savedPeche;
         if (pecheExiste != null) {
             pecheExiste.setNombrePoisson(pecheExiste.getNombrePoisson() + 1);
-            return pecheRepository.save(pecheExiste);
+            savedPeche = pecheRepository.save(pecheExiste);
         } else {
             Peche nouvellePeche = pecheRequestVM.toEntite();
             nouvellePeche.setNombrePoisson(1);
             nouvellePeche.setMembre(membre);
             nouvellePeche.setCompetition(competition);
             nouvellePeche.setPoisson(poisson);
-            return pecheRepository.save(nouvellePeche);
+            savedPeche = pecheRepository.save(nouvellePeche);
         }
+        updateScoreAndSaveClassement(membre, competition);
+        return savedPeche;
     }
+
+
+    private void updateScoreAndSaveClassement(Membre membre, Competition competition) {
+        List<Peche> peches = pecheRepository.findByMembreAndCompetition(membre, competition);
+        int score = 0;
+        for (Peche peche : peches) {
+            Poisson poisson = peche.getPoisson();
+            int pointLevel = poisson.getNiveau().getPoints();
+            score += peche.getNombrePoisson() * pointLevel;
+        }
+        Classement classement = classementRepository.findByMembreAndCompetition(membre, competition);
+        classement.setScore(score);
+        classementRepository.save(classement);
+    }
+
 }

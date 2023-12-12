@@ -15,4 +15,5 @@ public interface CompetitionService {
     Competition updateCompetition(Competition competition, String codeCompetition);
     void deleteCompetition(String codeCompetition);
     Classement inscrireMembre(Classement classement);
+    void updateClassementMembre(String competitionCode);
 }
